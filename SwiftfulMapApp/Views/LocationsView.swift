@@ -11,20 +11,7 @@ import MapKit
 struct LocationsView: View {
     
     @EnvironmentObject private var vm: LocationsViewModel
-    
-    @State private var cameraPosition: MapCameraPosition = MapCameraPosition.region(
-        MKCoordinateRegion(
-            center: CLLocationCoordinate2D(
-                latitude: 41.8902,
-                longitude: 12.4922
-            ),
-            span: MKCoordinateSpan(
-                latitudeDelta: 0.1,
-                longitudeDelta: 0.1
-            )
-        )
-    )
-    
+    let maxWidthForIpad: CGFloat = 700
     
     var body: some View {
         ZStack {
@@ -34,9 +21,13 @@ struct LocationsView: View {
             VStack(spacing: 0) {
                 header
                     .padding()
+                    .frame(maxWidth: maxWidthForIpad)
                 Spacer()
                 locationsPreviewStack
             }
+        }
+        .sheet(item: $vm.sheetLocation, onDismiss: nil) { location in
+            LocationDetailView(location: location)
         }
     }
     
@@ -106,6 +97,8 @@ extension LocationsView {
                     LocationPreviewView(location: location)
                         .shadow(color: /*@START_MENU_TOKEN@*/.black/*@END_MENU_TOKEN@*/.opacity(0.3), radius: 20)
                         .padding()
+                        .frame(maxWidth: maxWidthForIpad)
+                        .frame(maxWidth: .infinity)
                         .transition(.asymmetric(
                             insertion: .move(edge: .trailing),
                             removal: .move(edge: .leading))
