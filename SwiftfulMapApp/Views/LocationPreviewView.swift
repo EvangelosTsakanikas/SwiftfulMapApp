@@ -58,7 +58,7 @@ extension LocationPreviewView {
             }
         }
         .padding(6)
-        .background(.white  )
+        .background(.white)
         .clipShape(.rect(cornerRadius: 10))
     }
     
